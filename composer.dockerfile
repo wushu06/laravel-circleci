@@ -3,9 +3,9 @@ FROM composer:2
 ARG PHPGROUP
 ARG PHPUSER
 
-ENV PHPGROUP=${PHPGROUP}
-ENV PHPUSER=${PHPUSER}
+ENV PHPGROUP=www-data
+ENV PHPUSER=www-data
 
-RUN adduser -g ${PHPGROUP} -s /bin/sh -D ${PHPUSER}; exit 0
+RUN adduser -g www-data -s /bin/sh -D www-data; exit 0
 
 WORKDIR /var/www/html

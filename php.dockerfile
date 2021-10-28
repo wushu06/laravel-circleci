@@ -3,17 +3,17 @@ FROM php:8.0.5-fpm-alpine
 ARG PHPGROUP
 ARG PHPUSER
 
-ENV PHPGROUP=${PHPGROUP}
-ENV PHPUSER=${PHPUSER}
+ENV PHPGROUP=www-data
+ENV PHPUSER=www-data
 
-RUN adduser -g ${PHPGROUP} -s /bin/sh -D ${PHPUSER}; exit 0
+RUN adduser -g www-data -s /bin/sh -D www-data; exit 0
 
 RUN mkdir -p /var/www/html
 
 WORKDIR /var/www/html
 
-RUN sed -i "s/user = www-data/user = ${PHPUSER}/g" /usr/local/etc/php-fpm.d/www.conf
-RUN sed -i "s/group = www-data/group = ${PHPGROUP}/g" /usr/local/etc/php-fpm.d/www.conf
+RUN sed -i "s/user = www-data/user = www-data/g" /usr/local/etc/php-fpm.d/www.conf
+RUN sed -i "s/group = www-data/group = www-data/g" /usr/local/etc/php-fpm.d/www.conf
 
 RUN apk add --no-cache mysql-client msmtp perl wget procps shadow libzip libpng libjpeg-turbo libwebp freetype icu
 

@@ -18,7 +18,7 @@ jobs:
         run: docker-compose -f "docker-compose.yml" up -d --build
 
       - name: Install dependencies
-        run: docker-compose run --rm sudo composer install
+        run: docker-compose run --rm  composer install
 
       - name: Run tests
         run: cp ./src/.env.example ./src/.env
