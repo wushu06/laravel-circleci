@@ -20,16 +20,16 @@ jobs:
       - name: chmod
         run: docker-compose run --rm  php chmod -R 777 /var/www/html
 
-      - name: Install dependencies
+      - name: Install composer
         run: docker-compose run --rm  composer install
 
-      - name: Run tests
+      - name: prepare env
         run: cp ./src/.env.example ./src/.env
 
-      - name: Run tests
-        run: docker-compose run artisan --rm key:generate
+      - name: generate key
+        run: docker-compose run --rm artisan key:generate
 
-      - name: Run tests
+      - name: migrate
         run: docker-compose run --rm artisan migrate:refresh --seed
 
       - name: Run tests
