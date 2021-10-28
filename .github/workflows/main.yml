@@ -17,6 +17,9 @@ jobs:
       - name: Start containers
         run: docker-compose -f "docker-compose.yml" up -d --build
 
+      - name: chmod
+        run: docker-compose run --rm  php chmod -R 777 /var/www/html
+
       - name: Install dependencies
         run: docker-compose run --rm  composer install
 
