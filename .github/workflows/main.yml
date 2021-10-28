@@ -29,6 +29,9 @@ jobs:
       - name: generate key
         run: docker-compose run --rm artisan key:generate
 
+      - name: clear cache
+        run: docker-compose run --rm artisan config:cache
+
       - name: migrate
         run: docker-compose run --rm artisan migrate:refresh --seed
 
