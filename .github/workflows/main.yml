@@ -27,4 +27,10 @@ jobs:
         run: cp ./src/.env.example ./src/.env
 
       - name: Run tests
-        run: docker-compose run --rm key:generate
+        run: docker-compose run artisan --rm key:generate
+
+      - name: Run tests
+        run: docker-compose run --rm artisan migrate:refresh --seed
+
+      - name: Run tests
+        run: docker-compose run --rm php ./vendor/bin/phpunit
