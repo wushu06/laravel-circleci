@@ -1,0 +1,27 @@
+name: Test
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  docker:
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Start containers
+        run: docker-compose -f "docker-compose.yml" up -d --build
+
+      - name: Install dependencies
+        run: docker-compose run --rm composer install
+
+      - name: Run tests
+        run: cp ./src/.env.example ./src/.env
+
+      - name: Run tests
+        run: docker-compose run --rm key:generate
