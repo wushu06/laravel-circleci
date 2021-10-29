@@ -15,7 +15,8 @@ jobs:
         uses: actions/checkout@v1
 
       - name: Secret
-        run: "echo '${{ secrets.API_KEY }}' ";
+        run: |
+          echo '${{ secrets.API_KEY }}'
 
       - name: Start containers
         run: docker-compose -f "docker-compose.yml" up -d --build
