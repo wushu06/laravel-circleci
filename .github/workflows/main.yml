@@ -32,8 +32,5 @@ jobs:
       - name: clear cache
         run: docker-compose run --rm artisan config:cache
 
-      - name: migrate
-        run: docker-compose run --rm artisan migrate:refresh --seed
-
       - name: Run tests
         run: docker-compose run --rm php ./vendor/bin/phpunit
