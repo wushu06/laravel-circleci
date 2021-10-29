@@ -28,6 +28,6 @@ jobs:
 
       - name: generate key
         run: |
-        docker-compose run --rm artisan key:generate
-        docker-compose run --rm artisan config:cache
-        docker-compose run --rm php ./vendor/bin/phpunit
+          docker-compose run --rm artisan key:generate
+          docker-compose run --rm artisan config:cache
+          docker-compose run --rm php ./vendor/bin/phpunit
