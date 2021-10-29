@@ -1,4 +1,4 @@
-name: Test
+name: Laravel
 
 on:
   push:
@@ -6,35 +6,36 @@ on:
       - master
 
 jobs:
-  docker:
-    timeout-minutes: 10
+  tests:
+    name: Run tests
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout
-        uses: actions/checkout@v1
+      - uses: actions/checkout@v1
 
-      - name: Secret
+      - name: Cache composer dependencies
+        uses: actions/cache@v1
+        with:
+          path: vendor
+          key: composer-${{ hashFiles('composer.lock') }}
+
+      - name: Run composer install
+        run: composer install -n --prefer-dist
+        env:
+          APP_ENV: testing
+
+      - name: Prepare Laravel Application
         run: |
-          echo '${{ secrets.API_KEY }}'
-
-      - name: Start containers
-        run: docker-compose -f "docker-compose.yml" up -d --build
-
-      - name: chmod
-        run: docker-compose run --rm  php chmod -R 777 /var/www/html
-
-      - name: Install composer
-        run: docker-compose run --rm  composer install
-
-      - name: prepare env
-        run: cp ./src/.env.example ./src/.env
-
-      - name: generate key
-        run: docker-compose run --rm artisan key:generate
-
-      - name: clear cache
-        run: docker-compose run --rm artisan config:cache
+          cp .env.example .env
+          php artisan key:generate
 
       - name: Run tests
-        run: docker-compose run --rm php ./vendor/bin/phpunit
+        run: ./vendor/bin/phpunit
+        env:
+          APP_ENV: testing
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@master
+        if: failure()
+        with:
+          name: Logs
+          path: ./storage/logs
