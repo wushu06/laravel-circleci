@@ -27,10 +27,7 @@ jobs:
         run: cp ./src/.env.example ./src/.env
 
       - name: generate key
-        run: docker-compose run --rm artisan key:generate
-
-      - name: clear cache
-        run: docker-compose run --rm artisan config:cache
-
-      - name: Run tests
-        run: docker-compose run --rm php ./vendor/bin/phpunit
+        run: |
+        docker-compose run --rm artisan key:generate
+        docker-compose run --rm artisan config:cache
+        docker-compose run --rm php ./vendor/bin/phpunit

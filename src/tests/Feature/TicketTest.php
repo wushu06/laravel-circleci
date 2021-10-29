@@ -42,5 +42,14 @@ class TicketTest extends TestCase
         $this->get('/api/tickets')->assertSee($name);
     }
 
-
+    /** @test **/
+    public function it_can_delete_a_ticket()
+    {
+        $name = 'Noureddine';
+        $ticket = Ticket::factory()->create([
+            'first_name' => $name
+        ]);
+        $this->delete('/tickets/'.$ticket->id);
+        $this->assertDatabaseMissing('tickets', $ticket->toArray());
+    }
 }
